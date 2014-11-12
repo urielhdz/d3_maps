@@ -55,4 +55,7 @@ map.draw(function(){
 	,{color:"rgb(250,50,50)"});
 });
 ```
-
+Credits
+=======
+https://github.com/johan/world.geo.json
+https://gist.github.com/eparreno/205900
