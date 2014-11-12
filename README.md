@@ -3,6 +3,8 @@ D3Map (English)
 
 javascript plugin that allows you to draw a SVG map in your website using d3js
 
+DEMO: http://urielhdz.github.io/population/
+
 ** Para español ver más abajo**
 
 Getting Started
@@ -18,13 +20,13 @@ Getting Started
 ```
 4.- Instiantate the map and draw it
 ```
-var map = new Map();
-map.draw();
+var map = new Map("selector");
+map.fill(); // It can be map.stroke()
 ```
 5.- You can optionally pass a callback as a parameter
 ```
 var map = new Map();
-map.draw(function(){
+map.fill(function(){
   console.log("Im triggered when the map has already been drawn");		
 });
 ```
@@ -33,29 +35,51 @@ Additional features
 You can highlight specific countries by calling the highlightCountries function
 ```
 var map = new Map();
-map.draw(function(){
+map.fill(function(){
 	map.highlightCountries(["BRA","Mexico"],
 	function(){
 		console.log("I'm triggered when the countries have been highlighted")
 	});
 });
 ```
-Both the draw and the highlightCountries accept a JSON object as the last parameter for customization.
+Both the fill, stroke and the highlightCountries methods accept a JSON object as the last parameter for customization.
 ```
 var map = new Map();
-map.draw(function(){
-},{width:700,height:300,color:'red',scale:100});
+map.stroke(function(){
+},{strokeWidth:"2px",color:"#222"});
 ```
 
 ```
-var map = new Map();
-map.draw(function(){
+var map = new Map({width:700,height:300,color:'red',scale:100});
+map.fill(function(){
 	map.highlightCountries(["BRA","Mexico"],
 	function(){
 		console.log("Finished")
 	}
 	,{color:"rgb(250,50,50)"});
 });
+```
+You can even highlight countries depending on certain values, like in a heat map
+```
+var map = new Map("#map",{width:700,height:700,scale:110,mouse_over:true});
+var population_json = {};
+map.stroke(function(){
+	var data = {"BRA":20,"MEX":30};
+	map.applyHeatCountries(data,
+    	function(){
+   		console.log("I finished heating the map");
+    	});
+
+},{strokeWidth: "1px",color:"#eee"});
+```
+Both the stroke and fill method accept a callback for when a country is clicked, this callback receives the country path as an argument.
+```
+var map = new Map("#map",{width:700,height:700,scale:110,mouse_over:true});
+var population_json = {};
+map.stroke(function(){
+},{click:function(country){
+   console.log(country);
+}});
 ```
 D3Map (Español)
 =======
@@ -74,15 +98,15 @@ Configuración
 ```
 <script src="maps/map.js"></script>
 ```
-4.- Instancía el mapa y dibújalo con el método draw()
+4.- Instancía el mapa y dibújalo con el método fill() o stroke()
 ```
-var map = new Map();
-map.draw();
+var map = new Map("selector");
+map.fill(); // It can be map.stroke()
 ```
 5.- Opcionalmente, puedes pasar un callback.
 ```
 var map = new Map();
-map.draw(function(){
+map.fill(function(){
   console.log("Im triggered when the map has already been drawn");		
 });
 ```
@@ -91,23 +115,23 @@ Características adicionales
 Puedes resaltar países específicos utilizando el método highlightCountries() al que pasas un arreglo con los países a resaltar.
 ```
 var map = new Map();
-map.draw(function(){
+map.fill(function(){
 	map.highlightCountries(["BRA","Mexico"],
 	function(){
 		console.log("I'm triggered when the countries have been highlighted")
 	});
 });
 ```
-Ambos métodos (draw y highlightCountries) pueden recibir un JSON con opciones para personalizar los mapas.
+Los métodos fill, highlightCountries y stroke pueden recibir un JSON con opciones para personalizar los mapas, así como el constructor del mapa.
 ```
 var map = new Map();
-map.draw(function(){
-},{width:700,height:300,color:'red',scale:100});
+map.stroke(function(){
+},{strokeWidth:"2px",color:"#222"});
 ```
 
 ```
-var map = new Map();
-map.draw(function(){
+var map = new Map({width:700,height:300,color:'red',scale:100}); //Constructor con opciones
+map.fill(function(){
 	map.highlightCountries(["BRA","Mexico"],
 	function(){
 		console.log("Finished")
@@ -115,7 +139,28 @@ map.draw(function(){
 	,{color:"rgb(250,50,50)"});
 });
 ```
+También puedes crear mapas de calor con el método applyHeatCountries
+```
+var map = new Map("#map",{width:700,height:700,scale:110,mouse_over:true});
+var population_json = {};
+map.stroke(function(){
+	var data = {"BRA":20,"MEX":30};
+	map.applyHeatCountries(data,
+    	function(){
+   		console.log("I finished heating the map");
+    	});
 
+},{strokeWidth: "1px",color:"#eee"});
+```
+Los métodos stroke y fill aceptan, entre el objeto de opciones, un callback para cuando se hace clic sobre un país, este callback recibe como argumento el path del país.
+```
+var map = new Map("#map",{width:700,height:700,scale:110,mouse_over:true});
+var population_json = {};
+map.stroke(function(){
+},{click:function(country){
+   console.log(country);
+}});
+```
 
 Credits (Créditos
 =======
