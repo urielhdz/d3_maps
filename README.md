@@ -65,7 +65,7 @@ var map = new Map("#map",{width:700,height:700,scale:110,mouse_over:true});
 var population_json = {};
 map.stroke(function(){
 	var data = {"BRA":20,"MEX":30};
-	map.applyHeatCountries(data,
+	map.heatCountries(data,
     	function(){
    		console.log("I finished heating the map");
     	});
@@ -145,7 +145,7 @@ var map = new Map("#map",{width:700,height:700,scale:110,mouse_over:true});
 var population_json = {};
 map.stroke(function(){
 	var data = {"BRA":20,"MEX":30};
-	map.applyHeatCountries(data,
+	map.heatCountries(data,
     	function(){
    		console.log("I finished heating the map");
     	});
